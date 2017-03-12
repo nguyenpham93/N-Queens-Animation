@@ -218,7 +218,6 @@ class nqueen {
     reset(){
         this.s.clear();
         this.statusGroup.remove();
-        $("#mysolve,#status,#end").text("");
         this.i = 0;
         this.j = [];
         this.arrChess = [];
@@ -273,11 +272,13 @@ class nqueen {
     }
 
     runAuto(timeout){
-        let _this = this;
-        _this.interval = setInterval( function(){
-            if(_this.endLooking) _this.autoOff();
-            _this.next();
-        } ,timeout || 800);
+        if(!this.interval){
+            let _this = this;
+            _this.interval = setInterval( function(){
+                if(_this.endLooking) _this.autoOff();
+                _this.next();
+            } ,timeout || 800);
+        }
     }
 
     autoOff(){
@@ -299,6 +300,7 @@ class nqueen {
 
     // Run app
     runner(num,cb,opt){
+        this.reset();
         try{
             this.validateInput(num);
             this.length = num;
@@ -307,7 +309,6 @@ class nqueen {
         }catch(err){
             cb(err);
         }finally{
-            this.reset();
             this.init();
         }
     }

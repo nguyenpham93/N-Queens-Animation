@@ -2,6 +2,7 @@ const nqueen = require('./nqueen').nqueen;
 
 $("#btnChess").click(function(){
     let num = $("#inputNum").val();
+    $("#mysolve,#status,#end").text("");
     run.runner(num,function(err){
         if(err) $("#status").text(err);
     });
@@ -12,7 +13,7 @@ $("#btnNext").click(function(){
 });
 
 $("#btnAuto").click(function(){
-    run.runAuto(200);        
+    run.runAuto(700);        
 });
 
 // Run app
