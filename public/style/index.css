@@ -1,0 +1,9 @@
+#mysvg{
+  width:800px;
+  height:800px;
+  position: relative;
+  left :10%;
+}
+#container{
+  margin-left:50%;
+}
