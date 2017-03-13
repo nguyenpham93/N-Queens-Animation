@@ -17,7 +17,7 @@ function checkOdd(row,col){
 
 function fillOddBox(shape){
     shape.attr({
-        fill: "#fff"
+        fill: "#edeff2"
     });
 }
 
@@ -30,36 +30,53 @@ function fillEvenBox(shape){
 function drawChess(svg,x,y,code,opt){
     let chess = svg.text(x,y,code);
     chess.attr({
-        'font-size' : opt.fontSize,
+        'font-size' : opt.fontSize || 60,
         'text-anchor' : 'middle',
-        'fill' : opt.color,
+        'fill' : opt.color || 'orange',
         'stroke' : 'black'
     });
     return chess;
 }
 
 
-function drawBoard(svg,width,height,number){
+function drawBoard(svg,x,y,width,height,number){
     let space = width/2;
     for(var row = 0 ; row < number;row++){
         for(var col = 0; col < number;col++){
-            let r = drawRect(svg,col * width + space,row * height + space,width,height);
+            let r = drawRect(svg,col * width + space + x,row * height + space + y,width,height);
             if(checkOdd(row,col)) fillOddBox(r) 
             else fillEvenBox(r); 
             // draw A,B,C,1,2,3
             if(row == 0 ){
-                svg.text(col * width + width,row * height + space/2,String.fromCharCode(65 + col));
+                svg.text(col * width + width + x,row * height + space/2 + y,String.fromCharCode(65 + col));
             }
             if(col == 0){
-                svg.text(col * width + space/2,row * height + height,row + 1);
+                svg.text(col * width + space/2 + x,row * height + height + y,row + 1);
             }
         }
     }  
 }
 
+function drawChessWithSolution(svg,width,height,number,arrsolution,code,num_solution){
+    let space = width/2;
+    let cellsOfRow = number > 6 ? 4 : 5; 
+    let sizeBoard = width * number + space;
+    let thick = Math.floor(num_solution/6); 
+    let x = 0;
+    let y = thick * sizeBoard;  
+    if(num_solution % cellsOfRow != 0){
+        x = sizeBoard * num_solution;    
+    } 
+    drawBoard(svg,x,y,width,height,number);
+    arrsolution.forEach(function(arr){
+        drawChess(svg,arr[0] * width + width + x,arr[1] * height + height + width/3 + y,code,{'fontSize' : width});
+    });   
+}
+
 exports.drawBoard = drawBoard;
 exports.drawChess = drawChess;
 exports.drawRect = drawRect;
+exports.drawChessWithSolution = drawChessWithSolution;
 },{}],2:[function(require,module,exports){
 const nqueen = require('./nqueen').nqueen;
 
@@ -76,7 +93,7 @@ $("#btnNext").click(function(){
 });
 
 $("#btnAuto").click(function(){
-    run.runAuto(1500);        
+    run.runAuto(50);        
 });
 
 // Run app
@@ -103,6 +120,7 @@ class nqueen {
         this.i = 0; // row
         this.j = []; //col
         this.s = Snap("#mysvg");
+        this.s2 = Snap("#svg_solutions");
         this.statusGroup = this.s.group();
         this.acceptChess = []; 
         this.mainchess = '',
@@ -225,6 +243,13 @@ class nqueen {
             // Kiểm tra xem đã đủ n quân hậu chưa, nếu đủ thì lưu solution đó lại
             if(arrChess.length == n){
                 let solution = arrChess.slice(0);
+                draw.drawChessWithSolution(this.s2, //snap
+                                            40, //width
+                                            40, //height
+                                            this.length,
+                                            solution, //array 
+                                            this.options.codeText, //code
+                                            this.total_solutions.length);
                 this.total_solutions.push(solution);
                 this.popArr([arrChess,arrCross,arrCross1]);
                 j[i]++;
@@ -262,7 +287,7 @@ class nqueen {
         rect.attr({
             'stroke' : opts.stroke || 'black',
             'fill' : opts.color || 'green',
-            'opacity' : opts.opacity || 0.3
+            'opacity' : opts.opacity || 0.7
         });
         return rect;
     }
@@ -302,6 +327,7 @@ class nqueen {
     //clear snap
     reset(){
         this.s.clear();
+        this.s2.clear();
         this.statusGroup.remove();
         this.i = 0;
         this.j = [];
@@ -346,7 +372,7 @@ class nqueen {
 
     init(){
         //default table
-        draw.drawBoard(this.s,this.options.width,this.options.height,this.length);
+        draw.drawBoard(this.s,0,0,this.options.width,this.options.height,this.length);
         // //default chess
         this.mainchess = draw.drawChess(this.s,-1,-1,this.options.codeText,{
             'fontSize' : this.options.chessSize,

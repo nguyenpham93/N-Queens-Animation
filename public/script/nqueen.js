@@ -18,6 +18,7 @@ class nqueen {
         this.i = 0; // row
         this.j = []; //col
         this.s = Snap("#mysvg");
+        this.s2 = Snap("#svg_solutions");
         this.statusGroup = this.s.group();
         this.acceptChess = []; 
         this.mainchess = '',
@@ -140,6 +141,13 @@ class nqueen {
             // Kiểm tra xem đã đủ n quân hậu chưa, nếu đủ thì lưu solution đó lại
             if(arrChess.length == n){
                 let solution = arrChess.slice(0);
+                draw.drawChessWithSolution(this.s2, //snap
+                                            40, //width
+                                            40, //height
+                                            this.length,
+                                            solution, //array 
+                                            this.options.codeText, //code
+                                            this.total_solutions.length);
                 this.total_solutions.push(solution);
                 this.popArr([arrChess,arrCross,arrCross1]);
                 j[i]++;
@@ -177,7 +185,7 @@ class nqueen {
         rect.attr({
             'stroke' : opts.stroke || 'black',
             'fill' : opts.color || 'green',
-            'opacity' : opts.opacity || 0.3
+            'opacity' : opts.opacity || 0.7
         });
         return rect;
     }
@@ -217,6 +225,7 @@ class nqueen {
     //clear snap
     reset(){
         this.s.clear();
+        this.s2.clear();
         this.statusGroup.remove();
         this.i = 0;
         this.j = [];
@@ -261,7 +270,7 @@ class nqueen {
 
     init(){
         //default table
-        draw.drawBoard(this.s,this.options.width,this.options.height,this.length);
+        draw.drawBoard(this.s,0,0,this.options.width,this.options.height,this.length);
         // //default chess
         this.mainchess = draw.drawChess(this.s,-1,-1,this.options.codeText,{
             'fontSize' : this.options.chessSize,
