@@ -16,13 +16,13 @@ function checkOdd(row,col){
 
 function fillOddBox(shape){
     shape.attr({
-        fill: "#c0cad8"
+        fill: "#fff"
     });
 }
 
 function fillEvenBox(shape){
     shape.attr({
-        fill: "#292a2b"
+        fill: "black"
     });
 }
 

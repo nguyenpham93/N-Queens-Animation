@@ -13,7 +13,7 @@ $("#btnNext").click(function(){
 });
 
 $("#btnAuto").click(function(){
-    run.runAuto(700);        
+    run.runAuto(1500);        
 });
 
 // Run app

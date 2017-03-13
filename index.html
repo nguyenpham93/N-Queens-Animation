@@ -3,22 +3,39 @@
     <header>
         <meta charset="utf-8"/>
         <title>ChessPro</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
         <link rel="stylesheet" href="public/style/index.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     </header>
     <body>
-        <div id="container">
-            <h1 id="mysolve"></h1>
-            <h3 id="end"></h3>
-            <div id="show"></div>
-            <input type="text" id="inputNum" name="inputNum">
-            <button id="btnChess">GET</button>
-            <!--<button id="btnPrevious">Previous</button>-->
-            <button id="btnNext">Next</button>
-            <button id="btnAuto">Auto Run</button>
-            <p id="status"></p>
+        <div class="container-fluid">
+            <h2 class="text-center">N-Queens Algorithm - Animation</h2>
+            <div class="row">
+                <div class="col-sm-6">
+                    <svg id="mysvg"></svg>
+                </div>
+                <div class="col-sm-6">
+                    <div id="row">
+                        <h1 id="mysolve"></h1>
+                        <h3 id="end"></h3>
+                        <div id="show"></div>
+                        <input type="text" id="inputNum" name="inputNum">
+                        <button id="btnChess" class="btn btn-default">GET</button>
+                        <!--<button id="btnPrevious">Previous</button>-->
+                        <div class="groupbtn">
+                            <span>Auto mode  </span>
+                            <button id="btnAuto" class="btn btn-primary">AUTO</button>
+                        </div>
+                        <div class="groupbtn">
+                            <span>Manual mode </span>
+                            <button id="btnNext" class="btn btn-primary">TICK</button>
+                        </div>
+                        <p id="status"></p>
+                    </div>
+                </div>
+            </div>
         </div>
-        <svg id="mysvg"></svg>
-        
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/snap.svg/0.5.1/snap.svg-min.js"></script>
         <script src="bundle.js"></script>

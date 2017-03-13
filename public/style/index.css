@@ -1,9 +1,18 @@
+.container-fluid{
+  background-image: url("../img/grass.png");
+  background-repeat : no-repeat;
+  background-size: cover; 
+}
 #mysvg{
-  width:800px;
-  height:800px;
+  width:550px;
+  height:550px;
   position: relative;
   left :10%;
 }
-#container{
-  margin-left:50%;
+
+.groupbtn{
+  margin-top: 10px;
+  margin-bottom:10px;
 }
+
+

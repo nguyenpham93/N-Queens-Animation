@@ -177,7 +177,7 @@ class nqueen {
         rect.attr({
             'stroke' : opts.stroke || 'black',
             'fill' : opts.color || 'green',
-            'opacity' : opts.opacity || 0.5
+            'opacity' : opts.opacity || 0.3
         });
         return rect;
     }
@@ -247,9 +247,16 @@ class nqueen {
     validateInput(num){
         if(!num){
             throw new Error("Enter number");
-        }else if(num > 8 || num < 4){
-            throw new Error("4 < Input > 10");
         }
+        if (isNaN(num)){
+            throw new Error("Input must be a number");
+        }
+        num = parseInt(num);
+        if(num > 8 || num < 4){
+            throw new Error("4 < Input < 8");
+        }
+        this.length = num;
+        return num;
     }
 
     init(){
@@ -268,6 +275,16 @@ class nqueen {
                 let prop = this.options;
                 if(prop[p]) prop[p] = opt[p]; 
             }
+        }
+    }
+
+    //Calculate width, height of box to fix screen
+    calSize(num){
+        let opt = this.options;
+        if(num > 6 && opt.width > 60 && opt.height > 60 && opt.chessSize > 40){
+            this.options.width = 60;
+            this.options.height = 60;
+            this.options.chessSize = 40;
         }
     }
 
@@ -300,14 +317,14 @@ class nqueen {
 
     // Run app
     runner(num,cb,opt){
-        this.reset();
         try{
-            this.validateInput(num);
-            this.length = num;
-            this.checkOption(opt);   
+            this.reset();
+            num = this.validateInput(num);
+            this.checkOption(opt);
+            this.calSize(num);   
             cb(null);
         }catch(err){
-            cb(err);
+            cb(err.message);
         }finally{
             this.init();
         }
