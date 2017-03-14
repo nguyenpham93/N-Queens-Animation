@@ -37,7 +37,6 @@ function drawChess(svg,x,y,code,opt){
     return chess;
 }
 
-
 function drawBoard(svg,x,y,width,height,number){
     let space = width/2;
     for(var row = 0 ; row < number;row++){
